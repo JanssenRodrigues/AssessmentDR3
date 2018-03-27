@@ -11,7 +11,7 @@ package GA;
  */
 public class Individuo {
    int[] genes = new int[6];
-   int aptidao;
+   int aptidao = 0;
 
 //    public Individuo() {
 //        for(int i = 0; i < genes.length; i++){
@@ -35,4 +35,9 @@ public class Individuo {
     public void setAptidao(int aptidao) {
         this.aptidao = aptidao;
     }
+    
+    public String toString() {
+        return ("Genes: " + this.getGenes()+
+                    " Aptidao: " + this.getAptidao());
+   }
 }

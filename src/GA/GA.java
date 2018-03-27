@@ -5,6 +5,7 @@
  */
 package GA;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Vector;
@@ -16,7 +17,7 @@ import java.util.Vector;
 public class GA extends Individuo{
     private static final int POP = 3;    
     static Individuo[] populacao = new Individuo[6];
-    static Individuo[] populacaoOrdenada = new Individuo[6];
+    static ArrayList<Individuo> populacaoOrdenada = new ArrayList<Individuo>();
     
     static Random rnd = new Random();
     
@@ -26,7 +27,6 @@ public class GA extends Individuo{
         for(int i = 0; i < POP; i++){
             Individuo individuo = new Individuo();
             populacao[i] = individuo;
-//            int[] individuo = new int[6];
             for(int k = 0; k < individuo.getGenes().length; k++){
                 if(rnd.nextDouble() < 0.5){
                     populacao[i].genes[k] = 0;
@@ -35,9 +35,6 @@ public class GA extends Individuo{
                 }       
                 populacao[i] = individuo;
             }
-//            System.out.print("Individuo " + i + " - ");
-//            calcularAptidao(populacao[i]); //INDIVIDUO i DENTRO DE POPULACAO.
-//            System.out.println(Arrays.toString(populacao[i]));
             System.out.print("INDIVIDUO " + i + " - ");
             System.out.println(Arrays.toString(populacao[i].getGenes()));
             calcularAptidao(populacao[i]);
@@ -45,41 +42,39 @@ public class GA extends Individuo{
     }
     
     public static void calcularAptidao(Individuo individuo){
-//        System.out.println(Arrays.toString(individuo));
         int aptidao = 0;
         for(int i = 0; i < individuo.getGenes().length; i++){
             aptidao += individuo.genes[i];
         }
         individuo.setAptidao(aptidao);
-//        System.out.println(Arrays.toString(individuo));
         
         System.out.println("Aptidao : " + aptidao);
         System.out.println("----------------");
     }
     
-    public static void ordenarPopulacao(Individuo[] populacao){
-        
-        System.out.println("ORDENANDO POPULACAO");
-        for(int i = 6; i > 0; i--) {
-//            System.out.println(i);
-//            System.out.println(populacao[i].aptidao);
-            for(int k = 0; k < populacao.length; k++) {
-//                System.out.println(populacao[k].getAptidao());
-                if(populacao[k].getAptidao() == i){
-                    populacaoOrdenada[k] = populacao[k];
-                }
+    public static void ordenarPopulacao(Individuo[] populacao){        
+        System.out.println("ORDENANDO POPULACAO");     
+        for(int i = populacao.length - 1; i >= 0; i--) {
+            for(int k = 0; k < populacao.length - 1; k++) {
+                if(populacao[k] == null) {
+                    System.out.println("Ignorando Individuo nulo...");
+                } else if(populacao[k].aptidao == i) {
+                    populacaoOrdenada.add(populacao[k]);
+                }                   
             }
+        }
+        imprimirPopulacaoOrdenada(populacaoOrdenada);
+    }
+    
+    public static void imprimirPopulacaoOrdenada(ArrayList<Individuo> populacaoOrdenada) {
+        for(int i = 0; i < populacaoOrdenada.size(); i++){
+            System.out.println(populacaoOrdenada.get(i).toString());
         }
     }
     
     public static void main(String[] args) {
         // TODO code application logic here
         gerarPopulacao();
-//        ordenarPopulacao(populacao);
-//        for(int i = 0; i <  populacao.length; i++) {
-//            System.out.print("individuo " + i + " - ");
-//            System.out.println(Arrays.toString(populacao[i]));
-//        }
         ordenarPopulacao(populacao);
     }
    
