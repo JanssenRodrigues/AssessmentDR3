@@ -5,18 +5,19 @@
  */
 package GA;
 
+import static GA.GA.populacaoOrdenada;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
-import java.util.Vector;
 
 /**
  *
  * @author Janssen
  */
 public class GA extends Individuo{
-    private static final int POP = 3;    
-    static Individuo[] populacao = new Individuo[6];
+    private static final int POP = 20;    
+    private static final int GERACAO = 10;    
+    static Individuo[] populacao = new Individuo[20];
     static ArrayList<Individuo> populacaoOrdenada = new ArrayList<Individuo>();
     
     static Random rnd = new Random();
@@ -72,10 +73,46 @@ public class GA extends Individuo{
         }
     }
     
+    
+    
+    public static void selecionar(ArrayList<Individuo> populacaoOrdenada){
+        System.out.println(populacaoOrdenada.size());
+        Individuo novoIndividuo1 = new Individuo();
+        Individuo novoIndividuo2 = new Individuo();
+        for(int i = 0; i < POP - 1; i += 2){
+//            System.out.println(i);
+            int[] genesIndividuo1 = Arrays.copyOfRange(populacaoOrdenada.get(i).genes, 0, 3);
+            int[] genesIndividuo2 = Arrays.copyOfRange(populacaoOrdenada.get(i+1).genes, 0, 3);
+            
+            int[] novosGenesIndividuo1 = combine(genesIndividuo2, Arrays.copyOfRange(populacaoOrdenada.get(i).genes, 3, 6));
+            int[] novosGenesIndividuo2 = combine(genesIndividuo1, Arrays.copyOfRange(populacaoOrdenada.get(i+1).genes, 3, 6));
+            
+            novoIndividuo1.setGenes(novosGenesIndividuo1);
+            novoIndividuo2.setGenes(novosGenesIndividuo2);
+//            System.out.println("novos genes - " + Arrays.toString(novosGenesIndividuo1));
+            populacaoOrdenada.add(novoIndividuo1);
+            populacaoOrdenada.add(novoIndividuo2);
+        }
+        
+        imprimirPopulacaoOrdenada(populacaoOrdenada);
+        ordenarPopulacao(populacaoOrdenada);
+    }
+    
+    public static int[] combine(int[] a, int[] b){
+        int length = a.length + b.length;
+        int[] result = new int[length];
+        System.arraycopy(a, 0, result, 0, a.length);
+        System.arraycopy(b, 0, result, a.length, b.length);
+        return result;
+    }
+    
     public static void main(String[] args) {
         // TODO code application logic here
         gerarPopulacao();
         ordenarPopulacao(populacao);
+        selecionar(populacaoOrdenada);
+        
+        
     }
    
     

@@ -5,6 +5,8 @@
  */
 package GA;
 
+import java.util.Arrays;
+
 /**
  *
  * @author WIBSA-PC144
@@ -37,7 +39,7 @@ public class Individuo {
     }
     
     public String toString() {
-        return ("Genes: " + this.getGenes()+
-                    " Aptidao: " + this.getAptidao());
+        return ("Genes: " + Arrays.toString(this.getGenes())+
+                    " - Aptidao: " + this.getAptidao());
    }
 }
